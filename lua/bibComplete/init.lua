@@ -68,7 +68,7 @@ local function pick_citation(keys)
 e
 M.put = function()
     local cwd = vim.fn.getcwd()
-    local bib = vim.fn.globpath(cwd,".bib$",false,true)
+    local bib = vim.fn.globpath(cwd,"**/*.bib",false,true)
     if #bib == 0 then
         vim.notify("No bib files found")
         return
