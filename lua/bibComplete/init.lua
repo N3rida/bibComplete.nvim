@@ -55,25 +55,23 @@ local function pick_citation(keys)
         attach_mappings = function(prompt_bufnr, map)
             actions.select_default:replace(function()
                 local selection = action_state.get_selected_entry()
-
                 actions.close(prompt_bufnr)
-
-                -- Insert citation key at cursor
-                vim.api.nvim_put({ selection[1] }, "", true, true)
+                vim.api.nvim_paste(selection[1], true, -1)
             end)
-
             return true
         end,
     }):find()
-e
-M.put = function()
+end
+
+function M.put()
     local cwd = vim.fn.getcwd()
     local bib = vim.fn.globpath(cwd,"**/*.bib",false,true)
     if #bib == 0 then
         vim.notify("No bib files found")
         return
     end
-    local file = io.open(bib,"r")
+    vim.notify("Found bib file",vim.log.levels.DEBUG)
+    local file = io.open(bib[1],"r")
     local keys = {}
     if not file then
         vim.notify("Failed to open bib file")
@@ -87,7 +85,5 @@ M.put = function()
     end
     pick_citation(keys)
 end
-
-nd
 
 return M 
